@@ -1,5 +1,5 @@
 from subtitler.db import get_db, query_db
-from subtitler.modules import VTT
+from subtitler.utils import VTT
 from subtitler import htmx
 from flask import (
    Blueprint, render_template, request, make_response, abort

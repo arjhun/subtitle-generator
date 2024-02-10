@@ -3,7 +3,7 @@ from celery.utils.log import get_task_logger
 from subtitler.db import get_db
 from flask import current_app
 import os
-from subtitler.modules import speech_interface as speech
+from subtitler.utils import speech_interface as speech
 logger = get_task_logger(__name__)
 # if you want to do something with the results use ignore_result=False as a function argument
 # because we are ignoring everything by default

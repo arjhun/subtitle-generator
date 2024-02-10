@@ -1,7 +1,7 @@
 import os
 from google.cloud import speech, storage
 import ffmpeg
-from subtitler.modules.VTT import *
+from subtitler.utils.VTT import *
 
 def transcribe_model_selection(speech_file="", model="", sample_rate = 0) -> list[Line]:
     # """Transcribe the given audio file synchronously with

@@ -19,8 +19,8 @@ from subtitler.db import get_db
 from jinja2_fragments.flask import render_block
 from subtitler.db import get_db, query_db
 from subtitler.tasks.video import process
-from subtitler.modules import VTT
-from subtitler.modules.speech_interface import video_info
+from subtitler.utils import VTT
+from subtitler.utils.speech_interface import video_info
 from subtitler.htmx import htmx
 
 bp = Blueprint('projects', __name__, url_prefix='/')
