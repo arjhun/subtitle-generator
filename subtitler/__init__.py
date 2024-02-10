@@ -7,10 +7,12 @@ def create_app(test_config=None) -> Flask:
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        SECRET_KEY=os.environ.get("FLASK_SECRET_KEY", default="dev"),
-        DATABASE=os.path.join(app.instance_path, 'subtitler.sqlite'),
-        #configure this path via env var or in your instance folder config.py for file uploads in a containerized env
-        UPLOAD_FOLDER = os.environ.get('FLASK_UPLOAD_FOLDER', os.path.join(app.root_path, 'uploads')),
+        # please use a random and private key don't commit this key into a VCS 
+        SECRET_KEY = "dev",
+        # configure these paths in your instance folder config.py for file uploads in a containerized read-only env
+        DATABASE = os.path.join(app.instance_path, 'subtitler.sqlite'),
+        UPLOAD_FOLDER = os.path.join(app.root_path, 'uploads'),
+        # change this to your created storage bucket for your gcloud storage bucket
         STORAGE_BUCKET = 'your_gc_bucket',
         ALLOWED_EXTENSIONS = {'m4v','mp4','h264','mov'},
         MAX_CONTENT_LENGTH = 32 * 1000 * 1000,
