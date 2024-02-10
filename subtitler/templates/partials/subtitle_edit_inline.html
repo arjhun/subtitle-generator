@@ -1,76 +1,78 @@
-  <form hx-target="closest li" hx-swap="outerHTML">
-  <div class="timeinput">
-    <span class="material-symbols-outlined md-18">
-      start
-      </span>
-    <input title="Start time" type="number" name="start" id="start_time" min="0" value="{{subtitle.start}}" step="0.1">
-    <span class="material-symbols-outlined md-18">
-      arrow_range
-      </span>
-    <input title="Total length" type="number" name="length" id="length" min="0" step="0.1" value="{{(subtitle.end - subtitle.start) | round(3)}}">
-  </div>
-  <div class="edit_text" hx-confirm="shure?">
-    Actions:
-    {% if prevS %} 
-    <button 
-    name="action"
-    value="left" 
-    title="Move text to the previous subtitle..."
-    class="btn btn-link"
-    hx-select="#subtitle-{{subtitle.id}}"
-    hx-select-oob="#subtitle-{{prevS.id}}"
-    hx-put="{{url_for('subtitles.modify', id=subtitle.id)}}"
-    hx-confirm="Are you sure uou wany to split?" 
-    type="submit">
-      <span class="material-symbols-outlined md-18">
-        text_select_move_back_character
-      </span>
-    </button>
-    {% endif %}
-    <button 
-    name="action"
-    value="split" 
-    title="Cut text at cursor..."
-    class="btn btn-link"
-    hx-put="{{url_for('subtitles.modify', id=subtitle.id)}}"
-    hx-confirm="Are you sure uou wany to split?" 
-    type="submit">
-      <span class="material-symbols-outlined md-18">
-        content_cut
-      </span>
-    </button>
-    {%if nextS%}
-    <button 
-    name="action"
-    value="right" 
-    title="Move text to the next subtitle..."
-    class="btn btn-link"
-    hx-select="#subtitle-{{subtitle.id}}"
-    hx-select-oob="#subtitle-{{nextS.id}}"
-    hx-put="{{url_for('subtitles.modify', id=subtitle.id)}}"
-    hx-confirm="Are you sure uou wany to split?" 
-    type="submit">
-      <span class="material-symbols-outlined md-18">
-        text_select_move_forward_character
-      </span>
-    </button>
-    {%endif%}
-  </div>
-  <script>
+<form hx-target="closest li" hx-swap="outerHTML">
+    <div class="timeinput">
+        <span class="material-symbols-outlined md-18">start</span>
+        <input title="Start time"
+               type="number"
+               name="start"
+               id="start_time"
+               min="0"
+               value="{{ subtitle.start }}"
+               step="0.1">
+        <span class="material-symbols-outlined md-18">arrow_range</span>
+        <input title="Total length"
+               type="number"
+               name="length"
+               id="length"
+               min="0"
+               step="0.1"
+               value="{{ (subtitle.end - subtitle.start) | round(3) }}">
+    </div>
+    <div class="edit_text" hx-confirm="shure?">
+        Actions:
+        {% if prevS %}
+            <button name="action"
+                    value="left"
+                    title="Move text to the previous subtitle..."
+                    class="btn btn-link"
+                    hx-select="#subtitle-{{ subtitle.id }}"
+                    hx-select-oob="#subtitle-{{ prevS.id }}"
+                    hx-put="{{ url_for('subtitles.modify', id=subtitle.id) }}"
+                    hx-confirm="Are you sure uou wany to split?"
+                    type="submit">
+                <span class="material-symbols-outlined md-18">text_select_move_back_character</span>
+            </button>
+        {% endif %}
+        <button name="action"
+                value="split"
+                title="Cut text at cursor..."
+                class="btn btn-link"
+                hx-put="{{ url_for('subtitles.modify', id=subtitle.id) }}"
+                hx-confirm="Are you sure uou wany to split?"
+                type="submit">
+            <span class="material-symbols-outlined md-18">content_cut</span>
+        </button>
+        {% if nextS %}
+            <button name="action"
+                    value="right"
+                    title="Move text to the next subtitle..."
+                    class="btn btn-link"
+                    hx-select="#subtitle-{{ subtitle.id }}"
+                    hx-select-oob="#subtitle-{{ nextS.id }}"
+                    hx-put="{{ url_for('subtitles.modify', id=subtitle.id) }}"
+                    hx-confirm="Are you sure uou wany to split?"
+                    type="submit">
+                <span class="material-symbols-outlined md-18">text_select_move_forward_character</span>
+            </button>
+        {% endif %}
+    </div>
+    <script>
   function setCursorPos(el){
     el.nextElementSibling.value = el.selectionStart
     console.log("hi")
   }
-  </script>
-  <textarea 
-    onclick="setCursorPos(this)"
-    oninput="setCursorPos(this)"
-    name="text" 
-    id="text" 
-    rows="3">{{subtitle.text}}</textarea>
-  <input type="hidden"name="cursor" value="0">
-  <div class="control-group" hx-target="closest li" hx-swap="innerHTML">  
-    <button class="btn btn-primary" hx-put="{{url_for('subtitles.subtitle', id=subtitle.id)}}" type="submit">Submit</button>
-    <button class="btn btn-secondary" hx-confirm="unset" hx-get="{{url_for('subtitles.subtitle', id=subtitle.id)}}">Cancel</button>
-  </div>
+    </script>
+    <textarea onclick="setCursorPos(this)"
+              oninput="setCursorPos(this)"
+              name="text"
+              id="text"
+              rows="3">{{subtitle.text}}</textarea>
+    <input type="hidden"name="cursor" value="0">
+    <div class="control-group" hx-target="closest li" hx-swap="innerHTML">
+        <button class="btn btn-primary"
+                hx-put="{{ url_for('subtitles.subtitle', id=subtitle.id) }}"
+                type="submit">Submit</button>
+        <button class="btn btn-secondary"
+                hx-confirm="unset"
+                hx-get="{{ url_for('subtitles.subtitle', id=subtitle.id) }}">Cancel</button>
+    </div>
 </form>

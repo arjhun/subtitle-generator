@@ -1,133 +1,104 @@
 {% extends "layout.html" %}
-{% block title %} Editor {% endblock %} 
+{% block title %}Editor{% endblock %}
 {% block main %}
-<section class="editor">
-  <div class="col player">
-    <video
-      id="my-video"
-      class="video-js vjs-theme-sea"
-      controls
-      preload="auto"
-      poster="{{url_for('projects.poster',id=project.id)}}"
-    >
-      <source
-        src="{{url_for('projects.download',id=project.id)}}"
-        type="video/mp4"
-      />
-      <p class="vjs-no-js">
-        To view this video please enable JavaScript, and consider upgrading to a
-        web browser that
-        <a href="https://videojs.com/html5-video-support/" target="_blank"
-          >supports HTML5 video</a
-        >
-      </p>
-      <track
-        kind="captions"
-        src="{{url_for('projects.vtt',id=project.id)}}"
-        srclang="en"
-        label="English"
-        default
-      />
-    </video>
-    {% block project_meta %}
-    <div id="project_meta" class="panel edit-inline">
-      <div
-        hx-swap="innerHTML"
-        hx-get="{{url_for('projects.edit_project_form',id=project.id)}}"
-        hx-target="#project_meta"
-      >
-        <h1>{{project.name}}</h1>
-        <ul class="list-inline">
-          <li>
-            <span class="material-symbols-outlined md-18"> schedule </span>
-            {{project.length|duration}}
-          </li>
-          <li>
-            <span class="material-symbols-outlined md-18"> event </span>
-            {{project.created}}
-          </li>
+    <section class="editor">
+        <div class="col player">
+            <video id="my-video"
+                   class="video-js vjs-theme-sea"
+                   controls
+                   preload="auto"
+                   poster="{{ url_for('projects.poster',id=project.id) }}">
+                <source src="{{ url_for('projects.download',id=project.id) }}"
+                        type="video/mp4" />
+                <p class="vjs-no-js">
+                    To view this video please enable JavaScript, and consider upgrading to a
+                    web browser that
+                    <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+                </p>
+                <track kind="captions"
+                       src="{{ url_for('projects.vtt',id=project.id) }}"
+                       srclang="en"
+                       label="English"
+                       default />
+            </video>
+            {% block project_meta %}
+                <div id="project_meta" class="panel edit-inline">
+                    <div hx-swap="innerHTML"
+                         hx-get="{{ url_for('projects.edit_project_form',id=project.id) }}"
+                         hx-target="#project_meta">
+                        <h1>{{ project.name }}</h1>
+                        <ul class="list-inline">
+                            <li>
+                                <span class="material-symbols-outlined md-18">schedule</span>
+                                {{ project.length|duration }}
+                            </li>
+                            <li>
+                                <span class="material-symbols-outlined md-18">event</span>
+                                {{ project.created }}
+                            </li>
+                        </ul>
+                        {% if project.description %}<p>{{ project.description }}</p>{% endif %}
+                    </div>
+                    <ul class="project-exports list-inline">
+                        <li>
+                            <a class="btn btn-primary"
+                               href="{{ url_for('projects.download',id=project.id,att=true) }}"
+                               title="{{ project.filename }}">Download Video</a>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary"
+                               href="{{ url_for('projects.vtt',id=project.id,att=true) }}">Export *.VTT</a>
+                        </li>
+                    </ul>
+                </div>
+            {% endblock %}
+        </div>
+        <div class="col subtitles">
+            <ul id="subtitle_list">
+                {% block subtitles_block scoped %}
+                    {% for subtitle in subtitles %}
+                        {%
+                        block subtitle_block scoped %}
+                        <li id="subtitle-{{ subtitle.id }}"
+                            class="panel {% if loop and loop.first %}active{% endif %}">
+                            {% block line_block scoped %}
+                                <div class="subtitel_header">
+                                    <span hx-on:click="player.currentTime({{(subtitle.start)+0.01}})"
+                                          class="time_label">{{ subtitle.start | vtttime }}</span>
+                                    &rarr;
+                                    <span hx-on:click="player.currentTime({{ subtitle.end }})"
+                                          class="time_label">{{ subtitle.end | vtttime }}</span>
+                                </div>
+                                <div class="subtitle-text edit-inline"
+                                     hx-trigger="click once"
+                                     hx-on:click="player.currentTime({{(subtitle.start)+0.01}})"
+                                     hx-get="{{ url_for('subtitles.update_form', id=subtitle.id) }}"
+                                     hx-target="closest li"
+                                     hx-swap="innerHTML">{{ subtitle.text | vttline | safe }}</div>
+                                <button class="btn btn-link delete-button"
+                                        hx-confirm="Are you shure you want to delete this subtitle?"
+                                        hx-target="closest li"
+                                        hx-swap="outerHTML swap:.5s"
+                                        hx-delete="{{ url_for('subtitles.delete', id=subtitle.id) }}">
+                                    <span class="material-symbols-outlined md-18">delete</span>
+                                </button>
+                            {% endblock %}
+                        </li>
+                    {% endblock %}
+                {% endfor %}
+            {% endblock %}
         </ul>
-        {% if project.description %}
-        <p>{{project.description}}</p>
-        {% endif %}
-      </div>
-      <ul class="project-exports list-inline">
-        <li>
-          <a
-            class="btn btn-primary"
-            href="{{url_for('projects.download',id=project.id,att=true)}}"
-            title="{{project.filename}}"
-            >Download Video</a
-          >
-        </li>
-        <li>
-          <a
-            class="btn btn-primary"
-            href="{{url_for('projects.vtt',id=project.id,att=true)}}"
-            >Export *.VTT</a
-          >
-        </li>
-      </ul>
     </div>
-    {% endblock %}
-  </div>
-  <div class="col subtitles">
-    <ul id="subtitle_list">
-      {% block subtitles_block scoped %} {% for subtitle in subtitles %} {%
-      block subtitle_block scoped %}
-      <li
-        id="subtitle-{{subtitle.id}}"
-        class="panel {%if loop and loop.first %} active {% endif %}"
-      >
-        {% block line_block scoped%}
-        <div class="subtitel_header">
-          <span
-            hx-on:click="player.currentTime({{(subtitle.start)+0.01}})"
-            class="time_label"
-            >{{ subtitle.start | vtttime }}</span
-          >
-          &rarr;
-          <span
-            hx-on:click="player.currentTime({{subtitle.end}})"
-            class="time_label"
-            >{{ subtitle.end | vtttime }}</span
-          >
-        </div>
-        <div
-          class="subtitle-text edit-inline"
-          hx-trigger="click once"
-          hx-on:click="player.currentTime({{(subtitle.start)+0.01}})"
-          hx-get="{{url_for('subtitles.update_form', id=subtitle.id)}}"
-          hx-target="closest li"
-          hx-swap="innerHTML"
-        >
-          {{ subtitle.text | vttline | safe }}
-        </div>
-        <button
-          class="btn btn-link delete-button"
-          hx-confirm="Are you shure you want to delete this subtitle?"
-          hx-target="closest li"
-          hx-swap="outerHTML swap:.5s"
-          hx-delete="{{url_for('subtitles.delete', id=subtitle.id)}}"
-        >
-          <span class="material-symbols-outlined md-18"> delete </span>
-        </button>
-        {% endblock %}
-      </li>
-      {% endblock %} 
-      {% endfor %} 
-      {% endblock %}
-    </ul>
-  </div>
 </section>
-{% endblock %} {% block page_scripts %}
-<style>
+{% endblock %}
+{% block page_scripts %}
+    <style>
   .vjs-current-time.vjs-time-control {
     display: block;
   }
-</style>
-<script src="https://vjs.zencdn.net/8.9.0/video.min.js"></script>
-<script>
+    </style>
+    <script src="https://vjs.zencdn.net/8.9.0/video.min.js"></script>
+    <script>
   const list = document.getElementById("subtitle_list");
 
   let player = videojs("my-video", {
@@ -205,5 +176,5 @@
         behavior: "smooth",
       });
   }
-</script>
+    </script>
 {% endblock %}

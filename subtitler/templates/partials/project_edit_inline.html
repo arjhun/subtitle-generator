@@ -1,10 +1,13 @@
-<form hx-swap="outerHTML" hx-target="#project_meta" hx-put="{{url_for('projects.project', id=project.id)}}" >
+<form hx-swap="outerHTML"
+      hx-target="#project_meta"
+      hx-put="{{ url_for('projects.project', id=project.id) }}">
     <label for="name">Name</label>
-    <input type="text" name="name" id="name" value="{{project.name}}">
+    <input type="text" name="name" id="name" value="{{ project.name }}">
     <label for="description">Description</label>
     <textarea name="description" id="" rows="3">{{project.description}}</textarea>
-    <div class="control-group">  
-      <button class="btn btn-primary" type="submit" >Submit</button>
-      <button class="btn btn-secondary" hx-get="{{url_for('projects.project', id=project.id)}}">Cancel</button>
+    <div class="control-group">
+        <button class="btn btn-primary" type="submit">Submit</button>
+        <button class="btn btn-secondary"
+                hx-get="{{ url_for('projects.project', id=project.id) }}">Cancel</button>
     </div>
-  </form>
+</form>
