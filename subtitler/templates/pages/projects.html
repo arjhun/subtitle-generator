@@ -1,0 +1,110 @@
+{% extends "layout.html" %}
+{% block title %} projects {% endblock %}
+{% block main %}
+<section class="col">
+    <header class="page-header">
+        <h1>Projects</h1>
+        <button class="btn btn-primary" id="openUploadDialog" hx-get="{{url_for('projects.upload')}}" hx-swap="beforeend" hx-target="body">
+            <span class="material-symbols-outlined">
+                add
+            </span>
+        </button>
+    </header>
+    <div id="resp_table" class="resp_table">
+        {% block projects_block scoped %}
+        <table class="panel projects" hx-target="#resp_table" hx-get="{{url_for('index', page=pagination.current_page)}}" hx-trigger="project_update from:body" hx-swap="innerHTML">
+            <thead>
+                <tr>
+                    <td>Thumbnail</td>
+                    <td>Name</td>
+                    <td>Filename</td>
+                    <td class="status">Status</td>
+                    <td>Description</td>
+                    <td>Length</td>
+                    <td>Uploaded</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for project in projects %}
+                {% block project_row_block scoped%}
+                <tr>
+                    <td>
+                    <div class="thumbnail">
+                    <img src="{{url_for('projects.poster',id=project.id)}}" width="80px"alt="">
+                    </div>
+                    </td>
+                    <td>
+                        {{project.name}}
+                    </td>
+                    <td>
+                        {{project.filename}}
+                    </td>
+                    <td class="status">
+                            <span class="label {{project.status | label}}"
+                            {% if project.status | busy %} 
+                            hx-get="{{url_for('projects.project_row',id=project.id)}}" 
+                            hx-trigger="every 3s" 
+                            hx-target="closest tr" 
+                            hx-swap="outerHTML"
+                            {%endif%}
+                            >
+                             {% if project.status | busy %}
+                             <span class="material-symbols-outlined spinner">progress_activity</span>
+                             {%endif%} 
+                            {{project.status}}</span>
+                    </td>
+                    <td>
+                        {{project.description}}
+                    </td>
+                    <td>
+                        {{project.length|duration}}
+                    </td>
+                    <td>
+                        {{project.created}}
+                    </td>
+                    <td>
+                        {% if project.status == "uploaded" %}
+                        <a class="btn btn-link" hx-get="{{url_for('projects.retry', id=project.id)}}" title="edit">
+                        <span class="material-symbols-outlined">
+                                replay
+                                </span>
+                        </a>
+                        {% endif %}
+                        {% if project.status == "done" %}
+                            <a class="btn btn-link" href="{{url_for('projects.editor', id=project.id)}}" title="edit subtitels">
+                            <span class="material-symbols-outlined">
+                                edit
+                                </span></a>
+                        {% endif %}
+                        <button title="delete" class="btn btn-link" hx-confirm="Are you sure?" hx-target="closest tr" hx-delete="{{url_for('projects.delete', id=project.id)}}">
+                        <span class="material-symbols-outlined">
+                            delete
+                            </span></button>
+                    </td>
+                </tr>
+                {% endblock %}
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if pagination.num_pages > 1 %}
+        <ul class="pagination" hx-boost="true" hx-target="#resp_table" >
+            {% if pagination.current_page > 1 %} 
+            <li class="page-item"><a href="{{url_for('index',page=pagination.current_page-1)}}"><</a></li>
+            {% else %}
+            <li class="page-item disabled"><span><</span></li>
+            {% endif %}
+            {% for page in pagination.pages %}
+            <li class="page-item {% if pagination.current_page == page %} active{% endif %}"><a href="{{url_for('index',page=page)}}">{{page}}</a></li>
+            {% endfor %}
+            {% if pagination.current_page < pagination.num_pages %}
+             <li class="page-item"><a href="{{url_for('index',page=pagination.current_page+1)}}">></a></li>
+              {% else %}
+            <li class="page-item disabled"><span>></span></li>
+            {% endif %}
+        </ul>
+        {% endif %}
+        {%endblock%}
+    </div>
+</section>
+{% endblock %}

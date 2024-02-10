@@ -1,0 +1,8 @@
+{% extends "layout.html" %}
+{% block title %} 404 {% endblock %}
+{% block main %}
+<section class="col">
+    <h1>Oops! Looks like the page doesn't exist anymore</h1> 
+    <a href="{{ url_for('projects.index') }}"><p>Click Here</a>To go to the Home Page</p> 
+</section>
+{% endblock %}

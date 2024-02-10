@@ -1,0 +1,482 @@
+:root {
+  --primary-color: #00abe1;
+  --primary-color-bg: #72c7e1;
+  --secundary-color: grey;
+  --error-color: red;
+  --success-color: green;
+  --main-bg-color: rgb(243, 243, 243);
+  --nav-bg-color: rgb(63, 63, 63);
+  --primary-border-color: rgb(230, 230, 230);
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.thumbnail {
+  width: 80px;
+  overflow: hidden;
+  aspect-ratio: 1.33;
+  border-radius: 5px;
+  background-color: rgb(220, 220, 220);
+}
+
+html {
+  box-sizing: border-box;
+}
+
+body,
+textarea {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+  background-color: var(--main-bg-color);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  margin-bottom: 1rem;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar {
+  position: relative;
+  z-index: 1000;
+  margin: 0;
+  padding: 0;
+  background-color: var(--nav-bg-color);
+  display: flex;
+  align-items: center;
+}
+
+.navbar a:link,
+.navbar a:visited {
+  color: white;
+}
+
+#nav-menu {
+  flex-grow: 1;
+  display: flex;
+}
+
+a:link.disabled {
+  pointer-events: none;
+  cursor: default;
+  text-decoration: none;
+  color: grey;
+}
+
+a:visited,
+a:link {
+  text-decoration: none;
+  color: var(--primary-color);
+}
+
+.list-panel li.active {
+  font-weight: bold;
+  text-decoration: underline;
+  color: var(--primary-color);
+}
+
+.list-panel li.disabled {
+  color: grey;
+}
+
+a:visited,
+a:link,
+.btn.btn-link {
+  text-decoration: none;
+}
+
+a:visited:hover,
+a:link:hover,
+.btn.btn-link:hover {
+  opacity: 0.7;
+}
+
+.branding {
+  font-family: "Poppins", sans-serif;
+  text-shadow: 0 0 5px #fff;
+  margin-right: 1rem;
+  color: white;
+  font-size: 1.5em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  padding-left: 0.5em;
+}
+
+.branding .material-symbols-outlined {
+  vertical-align: bottom;
+  font-size: 1.5em;
+}
+
+.editor {
+  width: 100%;
+  display: flex;
+}
+
+.subtitles {
+  flex: 3;
+}
+
+.time-devider {
+  margin: 0 5px;
+}
+
+.player {
+  flex: 2;
+}
+
+.col {
+  padding: 10px;
+}
+
+.subtitles {
+  height: calc(100vh - 100px);
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.panel {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  border: 1px solid var(--primary-border-color);
+}
+
+.timeinput {
+  display: flex;
+  margin-bottom: 1em;
+}
+
+.subtitles li {
+  margin-bottom: 1em;
+  position: relative;
+}
+
+.edit-inline {
+  cursor: pointer;
+}
+
+.subtitle-text:hover {
+  opacity: 0.7;
+}
+
+.subtitles li textarea {
+  font-size: inherit;
+  padding: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: floralwhite;
+  border-radius: 3px;
+}
+
+.subtitles .btn.delete-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: none;
+}
+
+.subtitles .panel:hover .delete-button {
+  display: inline-block;
+}
+
+.subtitles li.htmx-swapping {
+  opacity: 0;
+  background-color: var(--error-color);
+  transition: 0.5s ease-out;
+}
+
+.edit_text {
+  margin-bottom: 1em;
+}
+
+.subtitles li.active {
+  background-color: rgb(206, 235, 255);
+  border: 2px solid var(--primary-color);
+}
+
+dt {
+  font-weight: bold;
+}
+
+.info {
+  background-color: white;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+}
+.subtitel_header {
+  line-height: 1em;
+  margin-bottom: 1em;
+}
+
+.time_label {
+  font-family: monospace;
+  color: var(--primary-color);
+  padding: 5px;
+  border: 1px solid #dfdfdf;
+  border-radius: 3px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.time_label:hover {
+  background-color: ghostwhite;
+}
+
+input,
+textarea {
+  display: block;
+}
+
+label {
+  font-weight: bold;
+}
+
+.resp_table {
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+thead {
+  font-weight: bold;
+}
+
+tr {
+  border-bottom: 1px solid rgb(230, 230, 230);
+}
+
+td {
+  padding: 0.75rem;
+  line-height: 2em;
+}
+
+.label {
+  vertical-align: middle;
+  display: inline-block;
+  border-radius: 1rem;
+  padding: 0.1em 1em;
+  text-align: center;
+  font-size: 75%;
+}
+
+.label.label-primary {
+  background-color: var(--primary-color);
+}
+
+.label.label-error {
+  background-color: var(--error-color);
+}
+
+.label.label-success {
+  background-color: var(--success-color);
+}
+
+.label.label-secondary {
+  background-color: var(--secundary-color);
+}
+
+.spinner {
+  animation: spin-animation 0.6s infinite;
+  vertical-align: middle;
+}
+
+.htmx-indicator {
+  opacity: 0;
+  transition: opacity 500ms ease-in;
+}
+.htmx-request .htmx-indicator {
+  opacity: 1;
+}
+.htmx-request.htmx-indicator {
+  opacity: 1;
+}
+
+@keyframes spin-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(359deg);
+  }
+}
+
+dd {
+  margin-left: 0;
+}
+
+.btn:not(:disabled):not(.disabled) {
+  cursor: pointer;
+}
+
+.btn {
+  padding: 0.4em 0.8em;
+  border: none;
+  color: white;
+  border-radius: 3px;
+  font-size: inherit;
+}
+
+.btn:hover {
+  opacity: 0.7;
+}
+
+.btn.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn.btn-secondary {
+  background-color: var(--secundary-color);
+}
+
+.btn.btn-link {
+  vertical-align: bottom;
+  display: inline;
+  font-size: inherit;
+  background-color: transparent;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  color: var(--primary-color);
+}
+
+.control-group {
+  margin: 1em 0;
+}
+
+.list-inline {
+  margin: 0;
+  margin-bottom: 1rem;
+  text-decoration: none;
+  display: flex;
+}
+
+.list-panel {
+  margin: 0;
+  text-decoration: none;
+  margin-bottom: 1rem;
+  display: block;
+  background-color: white;
+  padding: 0;
+  border-radius: 5px;
+  border: 1px solid rgb(230, 230, 230);
+  display: inline-block;
+}
+
+.list-panel li {
+  display: inline-block;
+  border-right: 1px solid rgb(230, 230, 230);
+  padding: 10px;
+}
+
+.list-inline li:not(:last-child) {
+  margin-right: 0.5rem;
+}
+
+.list-inline li {
+  display: inline-block;
+}
+
+/* Rules for sizing md icons. */
+.material-symbols-outlined.md-18 {
+  font-size: 18px;
+}
+.material-symbols-outlined.md-24 {
+  font-size: 24px;
+}
+.material-symbols-outlined.md-36 {
+  font-size: 36px;
+}
+.material-symbols-outlined.md-48 {
+  font-size: 48px;
+}
+
+.btn .material-symbols-outlined {
+  vertical-align: bottom;
+}
+
+.btn.btn-large {
+  font-size: 24px;
+}
+
+.page-header {
+  align-items: flex-start;
+  display: flex;
+}
+
+.page-header h1 {
+  flex-grow: 1;
+}
+
+dialog {
+  border: 0;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.projects td.status {
+  width: 120px;
+  text-align: center;
+}
+
+.pagination {
+  list-style: none;
+  padding: 0px;
+  margin: 10px 0;
+  display: flex;
+  border-radius: 0.25rem;
+}
+
+.pagination .page-item {
+  background-color: white;
+  padding: 10px;
+  border: 1px solid var(--primary-border-color);
+  margin-left: -1px;
+}
+
+.pagination .page-item:first-child {
+  margin-left: 0px;
+  border-top-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+}
+
+.pagination .page-item:last-child {
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+}
+
+.pagination .page-item.active {
+  background-color: #b1ddea;
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.pagination .page-item.disabled {
+  color: rgb(208, 208, 208);
+  background-color: whitesmoke;
+}
+
+#user-menu {
+  margin: 10px;
+}

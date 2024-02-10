@@ -1,0 +1,45 @@
+<style>
+    .modal{
+        max-width: 300px;
+    }
+    .modal input, .modal textarea{
+        width: 100%;
+    }
+</style>
+<dialog id="uploadForm" class="modal" hx-disabled-elt="self">
+    <h2>Upload a video</h2>
+    <p>Uploading a video can take a while and will happen in the background!</p>
+    <form hx-indicator="#upload_spinner" hx-post="{{url_for('projects.upload')}}" enctype="multipart/form-data" hx-target="closest dialog" hx-swap="outerHTML">
+        <div>
+          <label for="file">Video file</label>
+          <input id="file" type="file" name="file" accept=".m4v, .mov, .h264, .mp4" required/>
+        </div>
+        <div><label for="name">Name</label>
+        <input id="name" type="text" name="name" id="name">
+      </div>
+      <div>
+        <label for="description">Description</label>
+        <textarea name="description" id="description" cols="30" rows="10"></textarea>
+      </div>
+      <br>
+      <div>
+        <button type="submit" class="btn btn-primary">submit</button>
+        <button class="btn btn-secondary" id="closeUploadForm" aria-label="close" formnovalidate>Close</button>
+        <span id="upload_spinner" class="material-symbols-outlined spinner htmx-indicator">
+            progress_activity
+            </span>
+      </div>
+    </form>
+    <script>
+            (()=>{
+                var uploadForm = document.getElementById("uploadForm");
+                uploadForm.showModal();
+                let cancel = document.getElementById("closeUploadForm");
+                cancel.addEventListener("click", (e)=>{
+                    e.preventDefault();
+                    uploadForm.close();
+                    uploadForm.remove();
+                });
+            })();
+    </script>
+</dialog>
