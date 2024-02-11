@@ -1,0 +1,8 @@
+flask
+flask-htmx
+celery
+ffmpeg-python 
+google-cloud
+google-cloud-speech 
+google-cloud-storage
+jinja2-fragments
