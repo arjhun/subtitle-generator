@@ -15,7 +15,7 @@ def create_app(test_config=None) -> Flask:
         # change this to your created storage bucket for your gcloud storage bucket
         STORAGE_BUCKET = 'your_gc_bucket',
         ALLOWED_EXTENSIONS = {'m4v','mp4','h264','mov'},
-        MAX_CONTENT_LENGTH = 32 * 1000 * 1000,
+        MAX_CONTENT_LENGTH = 100 * 1000 * 1000,
         PAGE_SIZE = 5,
         CELERY=dict(
             broker_url= "pyamqp://guest@localhost",
