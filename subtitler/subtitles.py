@@ -36,7 +36,7 @@ def subtitle(id):
             db.execute("UPDATE line SET text = ?, start = ?, end = ? WHERE id = ?",(text,start,end, id))
             db.commit() 
 
-    subtitle = db.execute("SELECT * FROM line WHERE id = ?", (id,)).fetchone()
+    subtitle = get_subtitle_byId(id)
     return render_block("pages/editor.html", "line_block", subtitle=subtitle)
 
 @bp.route('/<int:id>/modify', methods=('PUT',))
@@ -151,7 +151,9 @@ def sanitize_line(line:str):
     return ' '.join(line.split('\n'))
 
 def subtitle_block(id:int):
-    subtitle = query_db("SELECT * FROM line WHERE id = ?", (id,), True)
+    subtitle = get_subtitle_byId(id)
+    if subtitle == None:
+        return "Subtitle not found", 404
     return render_block('pages/editor.html', 'subtitle_block', subtitle=subtitle)
 
 # reusable queries
