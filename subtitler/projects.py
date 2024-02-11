@@ -76,7 +76,11 @@ def project(id):
             db.execute("UPDATE project SET name = ?, description = ? WHERE id = ?",(name,description,id))
             db.commit() 
 
-    project = db.execute("SELECT * FROM project WHERE id = ?", (id,)).fetchone()
+    project = get_project_byId(id)
+    if project == None: 
+        if htmx:
+            return "Project not found", 404
+        abort(404)
     return render_block("pages/editor.html", "project_meta", project=project)
 
 
@@ -93,7 +97,7 @@ def editor(id):
     subtitles = db.execute("SELECT * from line WHERE project_id = ? ORDER BY start ASC", (id,)).fetchall()
     if(subtitles == None):
         abort(404)
-    project = db.execute("SELECT * from project WHERE id = ?", (id,)).fetchone()
+    project = get_project_byId(id)
     if(project == None):
         abort(404)
     return render_template('pages/editor.html', project=project, subtitles=subtitles)
@@ -129,8 +133,7 @@ def delete(id):
 @bp.route('/<int:id>/project_row', methods=('GET', 'POST'))
 def project_row(id):
     id = int(id)
-    db = get_db()
-    project = db.execute("SELECT * from project WHERE id = ?", (id,)).fetchone()
+    project = get_project_byId(id)
     return render_block("pages/projects.html", "project_row_block", project=project)
 
 @bp.route('/<int:id>/vtt', methods=('GET',))
@@ -195,7 +198,7 @@ def retry(id):
 
 @bp.route('/<int:id>/download_video')
 def download(id):
-    project = query_db("SELECT stored_filename, filename FROM project WHERE id = ?", (id, ), True) 
+    project = get_project_byId(id) 
     if project == None:
         return "File does not exist...", 500
     file = os.path.join(current_app.config["UPLOAD_FOLDER"], project['stored_filename'])
@@ -204,7 +207,7 @@ def download(id):
 
 @bp.route('/<int:id>/poster')
 def poster(id):
-    project = query_db("SELECT stored_filename, filename FROM project WHERE id = ?", (id, ), True) 
+    project = get_project_byId(id)
     if project == None:
         return "project does not exist...", 500
     try:
