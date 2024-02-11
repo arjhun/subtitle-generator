@@ -1,6 +1,7 @@
 import sqlite3
 
 import click
+import os
 from flask import current_app, g
 
 
@@ -36,6 +37,8 @@ def query_db(query, args=(), one=False):
 @click.command('init-db')
 def init_db_command():
     """Clear the existing data and create new tables."""
+    if  os.path.exists(current_app.config['DATABASE']):
+        click.confirm('DB already exists, do you want to continue?', abort=True)
     init_db()
     click.echo('Initialized the database.')
 
