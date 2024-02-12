@@ -89,8 +89,8 @@ def modify(id):
                         )
             new_id = res.lastrowid
             db.execute( "UPDATE line SET text = ?, end = ? WHERE id=?", (new_text, time_at_cursor, id))
-            blocks.append(subtitle_block(id))
-            blocks.append(subtitle_block(new_id))
+            blocks.append(subtitle_block(id, no_swap = True))
+            blocks.append(subtitle_block(new_id, no_swap = True))
         
         elif request.form['action'] == "right":
             
@@ -142,11 +142,11 @@ def vtttime(s) -> str:
 def sanitize_line(line:str):
     return ' '.join(line.split('\n'))
 
-def subtitle_block(id:int):
+def subtitle_block(id:int, no_swap=False):
     subtitle = get_subtitle_byId(id)
     if subtitle == None:
         return "Subtitle not found", 404
-    return render_block('pages/editor.html', 'subtitle_block', subtitle=subtitle)
+    return render_block('pages/editor.html', 'subtitle_block', subtitle=subtitle, no_swap=no_swap)
 
 # reusable queries
 
