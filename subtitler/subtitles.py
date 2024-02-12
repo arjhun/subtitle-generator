@@ -2,9 +2,10 @@ from subtitler.db import get_db, query_db
 from subtitler.utils import VTT
 from subtitler import htmx
 from flask import (
-   Blueprint, render_template, request, make_response, abort
+   Blueprint, render_template, request, abort
 )
 from jinja2_fragments.flask import render_block
+from flask_htmx import make_response
 
 bp = Blueprint('subtitles', __name__, url_prefix='/subtitles')
 
@@ -123,9 +124,7 @@ def modify(id):
             blocks.append(subtitle_block(id))
 
         db.commit()
-        response = make_response("\n".join(blocks))
-        response.headers['Hx-Trigger'] = "subtitles_updated"
-        return response
+        return make_response("\n".join(blocks), trigger= "subtitles_updated")
     return 500
 
 @bp.route('/<int:id>/update_form', methods=('GET',))
