@@ -125,9 +125,9 @@ def update_form(id):
         if htmx:
             return "Subtitle not found", 404
         abort(404)
-    next_sub = get_next_sub(subtitle)
-    prev_sub = get_prev_sub(subtitle)
-    return render_template('partials/subtitle_edit_inline.html', subtitle=subtitle, nextS=next_sub, prevS=prev_sub)
+    has_next = get_next_sub(subtitle) is not None
+    has_previous = get_prev_sub(subtitle) is not None
+    return render_template('partials/subtitle_edit_inline.html', subtitle=subtitle, has_next=has_next, has_previous=has_previous)
 
 # subtle filters
 

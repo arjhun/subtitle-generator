@@ -19,7 +19,7 @@
     </div>
     <div class="edit_text" hx-confirm="shure?">
         Actions:
-        {% if prevS %}
+        {% if has_previous %}
             <button name="action"
                     value="left"
                     title="Move text to the previous subtitle..."
@@ -41,7 +41,7 @@
                 type="submit">
             <span class="material-symbols-outlined md-18">content_cut</span>
         </button>
-        {% if nextS %}
+        {% if has_next %}
             <button name="action"
                     value="right"
                     title="Move text to the next subtitle..."
