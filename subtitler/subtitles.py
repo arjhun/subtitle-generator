@@ -72,8 +72,8 @@ def modify(id):
     
         # get the new time based on position of cursor in text
         time_at_cursor = round(start + total_s * cursor / chars,1)
-        text_left = text[:cursor]
-        text_right = text[cursor:]
+        text_left = text[:cursor].strip()
+        text_right = text[cursor:].strip()
         new_text = text
 
         if request.form['action'] == "split":
