@@ -24,7 +24,6 @@
                     title="Move text to the previous subtitle..."
                     class="btn btn-link"
                     hx-put="{{ url_for('subtitles.modify', id=subtitle.id) }}"
-                    hx-confirm="Are you sure uou wany to split?"
                     type="submit">
                 <span class="material-symbols-outlined md-18">text_select_move_back_character</span>
             </button>
@@ -34,7 +33,6 @@
                 title="Cut text at cursor..."
                 class="btn btn-link"
                 hx-put="{{ url_for('subtitles.modify', id=subtitle.id) }}"
-                hx-confirm="Are you sure uou wany to split?"
                 type="submit">
             <span class="material-symbols-outlined md-18">content_cut</span>
         </button>
@@ -45,7 +43,6 @@
                     class="btn btn-link"
                     hx-swap="none"
                     hx-put="{{ url_for('subtitles.modify', id=subtitle.id) }}"
-                    hx-confirm="Are you sure uou wany to split?"
                     type="submit">
                 <span class="material-symbols-outlined md-18">text_select_move_forward_character</span>
             </button>

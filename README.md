@@ -146,15 +146,26 @@ This project uses a paid API that has a free tier, please consult the GCLOUD doc
 
 ## Out of scope improvements
 
+- Proper error handling everywhere
+- Authentication
+- VTT parsing for generating editable subtitles from a VTT file.
+- During the development of this app it became apparent to me how well all the GCloud APIs work together. While I really like self hosting everything. Creating and managing tasks running a message queue and implementing authentication between services and users is a lot of overhead. This project will benefit a lot from moving it entirely to the cloud with app engine, cloud functions, cloud triggers cloud storage and database all in the google ecosystem.
+- It currently uses API v1 but should switch to API v2 soon to benefit from nice features like: batched long running tasks and higher quality transcriptions. These are also cheaper.
+- move to SCSS, Tailwind or move towards using a pre built frontend library. I created all the CSS and components myself, but does not feel very scalable at the moment, but I like doing it.
 
 ## Acknowledgements
+
   Thanks to all the maintainers for these packages. You can read more about the technologies used below:
 - [Cloud speech-to-text API](https://cloud.google.com/speech-to-text/docs/transcribe-api)
 - [Flask](https://flask.palletsprojects.com/en/3.0.x/)
+- [flask-htmx](https://github.com/edmondchuc/flask-htmx)
 - [jinja2-fragments](https://github.com/sponsfreixes/jinja2-fragments)
 - [ffmpeg-python](https://github.com/kkroening/ffmpeg-python)
 - [HTMX](https://htmx.org/)
 - [Celery + RabbitMQ](https://docs.celeryq.dev/en/stable/getting-started/first-steps-with-celery.html#choosing-a-broker)
+
+check out CS50: https://cs50.harvard.edu/x/2024/
+
 ## Support
 
 Please [open an issue](https://github.com/arjhun/subtitle-generator/issues/new) for support.
