@@ -94,16 +94,7 @@ def modify(id):
         
         elif request.form['action'] == "right":
             
-            next_sub = query_db("SELECT * FROM line \
-                                WHERE project_id = ? \
-                                AND start >= ?\
-                                AND id != ? \
-                                ORDER BY start ASC \
-                                LIMIT 1",
-                                (subtitle['project_id'], 
-                                 subtitle['start'], 
-                                 subtitle['id']), True)
-            
+            next_sub = get_next_sub(subtitle)
             new_text = VTT.create_text(sanitize_line(text_left))
             text_right = text_right + " " + next_sub['text']
             text_right = VTT.create_text(sanitize_line(text_right))
@@ -114,7 +105,7 @@ def modify(id):
         
         elif request.form['action'] == "left":
 
-            prev_sub = query_db("SELECT * FROM line WHERE project_id = ? AND start <= ? AND id != ? ORDER BY start DESC LIMIT 1", (subtitle['project_id'], subtitle['start'], subtitle['id']), True)
+            prev_sub = get_prev_sub(subtitle)
             new_text = VTT.create_text(sanitize_line(text_right))
             text_left = prev_sub['text'] + " " + text_left
             text_left = VTT.create_text(sanitize_line(text_left))
@@ -134,7 +125,9 @@ def update_form(id):
         if htmx:
             return "Subtitle not found", 404
         abort(404)
-    return render_template('partials/subtitle_edit_inline.html', subtitle=subtitle)
+    next_sub = get_next_sub(subtitle)
+    prev_sub = get_prev_sub(subtitle)
+    return render_template('partials/subtitle_edit_inline.html', subtitle=subtitle, nextS=next_sub, prevS=prev_sub)
 
 # subtle filters
 
@@ -159,3 +152,11 @@ def subtitle_block(id:int):
 
 def get_subtitle_byId(id):
     return query_db("SELECT * FROM line WHERE id = ?", (id,), True)
+
+def get_next_sub(subtitle):
+    return query_db("SELECT * FROM line WHERE project_id = ? AND start >= ? AND id != ? ORDER BY start ASC LIMIT 1",
+                    (subtitle['project_id'], subtitle['start'], subtitle['id']),True)
+
+def get_prev_sub(subtitle):
+    return query_db("SELECT * FROM line WHERE project_id = ? AND start <= ? AND id != ? ORDER BY start DESC LIMIT 1",
+                    (subtitle['project_id'], subtitle['start'], subtitle['id']), True)
