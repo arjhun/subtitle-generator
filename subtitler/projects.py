@@ -139,11 +139,17 @@ def project_row(id):
 @bp.route('/<int:id>/vtt', methods=('GET',))
 def vtt(id):
     lines = []
+    project = get_project_byId(id)
+    if project == None:
+        if htmx:
+            return "Project not found", 404
+        abort(404)
     for subtitle in query_db("SELECT * from line WHERE project_id = ? ORDER BY start ASC", (id,)):
         line = VTT.Line(subtitle['text'], subtitle['start'], subtitle['end'])
         lines.append(line)
     att = request.args.get("att") == "True"
-    return send_file(VTT.from_buffer(lines), download_name='subtitles.vtt', as_attachment=att)
+    file_name = os.path.splitext(project['filename'])[0]
+    return send_file(VTT.from_buffer(lines), download_name=f'{file_name}.vtt', as_attachment=att)
 
 @bp.route('/upload', methods=('GET', 'POST'))
 def upload():
