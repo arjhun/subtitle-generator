@@ -122,7 +122,6 @@ def edit_project_form(id):
 @bp.route('/<int:id>/delete', methods=('DELETE',))
 def delete(id):
     id = int(id)
-    project = get_project_byId(id)
     if htmx:
         db = get_db()
         db.execute("DELETE from project WHERE id = ?", (id,))
