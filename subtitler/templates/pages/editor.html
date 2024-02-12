@@ -59,7 +59,7 @@
                     {% for subtitle in subtitles %}
                         {%
                         block subtitle_block scoped %}
-                        <li id="subtitle-{{ subtitle.id }}"
+                        <li id="subtitle-{{ subtitle.id }}" hx-swap-oob="true"
                             class="panel {% if loop and loop.first %}active{% endif %}">
                             {% block line_block scoped %}
                                 <div class="subtitel_header">

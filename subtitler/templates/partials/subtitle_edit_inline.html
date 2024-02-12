@@ -12,7 +12,6 @@
         <input title="Total length"
                type="number"
                name="length"
-               id="length"
                min="0"
                step="0.1"
                value="{{ (subtitle.end - subtitle.start) | round(3) }}">
@@ -22,10 +21,9 @@
         {% if has_previous %}
             <button name="action"
                     value="left"
+                    hx-swap="none"
                     title="Move text to the previous subtitle..."
                     class="btn btn-link"
-                    hx-select="#subtitle-{{ subtitle.id }}"
-                    hx-select-oob="#subtitle-{{ prevS.id }}"
                     hx-put="{{ url_for('subtitles.modify', id=subtitle.id) }}"
                     hx-confirm="Are you sure uou wany to split?"
                     type="submit">
@@ -46,8 +44,7 @@
                     value="right"
                     title="Move text to the next subtitle..."
                     class="btn btn-link"
-                    hx-select="#subtitle-{{ subtitle.id }}"
-                    hx-select-oob="#subtitle-{{ nextS.id }}"
+                    hx-swap="none"
                     hx-put="{{ url_for('subtitles.modify', id=subtitle.id) }}"
                     hx-confirm="Are you sure uou wany to split?"
                     type="submit">
