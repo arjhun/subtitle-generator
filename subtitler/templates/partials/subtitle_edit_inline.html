@@ -1,10 +1,9 @@
-<form hx-target="closest li" hx-swap="outerHTML">
+<form id="subtitle-edit-form" hx-target="closest li" hx-swap="outerHTML">
     <div class="timeinput">
         <span class="material-symbols-outlined md-18">start</span>
         <input title="Start time"
                type="number"
                name="start"
-               id="start_time"
                min="0"
                value="{{ subtitle.start }}"
                step="0.1">
@@ -69,6 +68,7 @@
                 hx-put="{{ url_for('subtitles.subtitle', id=subtitle.id) }}"
                 type="submit">Submit</button>
         <button class="btn btn-secondary"
+                id="cancel-form"
                 hx-confirm="unset"
                 hx-get="{{ url_for('subtitles.subtitle', id=subtitle.id) }}">Cancel</button>
     </div>
