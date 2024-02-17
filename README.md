@@ -34,7 +34,7 @@ This project uses a paid API that has a free tier, please consult the GCLOUD doc
 5. Make sure you run RabbitMQ running it through a docker container is surprisingly easy!
    
    ```
-   docker run -d -p 5672:5672 rabbitMQ
+   docker run -d -p 5672:5672 rabbitmq
    ```
 6. create and enter virtual environment in your repo folder
    
