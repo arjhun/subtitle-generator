@@ -2,7 +2,7 @@
 {% block title %}Editor{% endblock %}
 {% block main %}
     <section class="editor">
-        <div class="col player">
+        <div class="player">
             <video id="my-video"
                    class="video-js vjs-theme-sea"
                    controls
@@ -20,47 +20,47 @@
                        srclang="en"
                        label="English"
                        default />
-            </video>
-            {% block project_meta %}
-                <div id="project_meta" class="panel edit-inline">
-                    <div hx-swap="innerHTML"
-                         hx-get="{{ url_for('projects.edit_project_form',id=project.id) }}"
-                         hx-target="#project_meta">
-                        <h1>{{ project.name }}</h1>
-                        <ul class="list-inline">
-                            <li>
-                                <span class="material-symbols-outlined md-18">schedule</span>
-                                {{ project.length|duration }}
-                            </li>
-                            <li>
-                                <span class="material-symbols-outlined md-18">event</span>
-                                {{ project.created }}
-                            </li>
-                        </ul>
-                        {% if project.description %}<p>{{ project.description }}</p>{% endif %}
-                    </div>
-                    <ul class="project-exports list-inline">
-                        <li>
-                            <a class="btn btn-primary"
-                               href="{{ url_for('projects.download',id=project.id,att=true) }}"
-                               title="{{ project.filename }}">Download Video</a>
-                        </li>
-                        <li>
-                            <a class="btn btn-primary"
-                               href="{{ url_for('projects.vtt',id=project.id,att=true) }}">Export *.VTT</a>
-                        </li>
-                    </ul>
-                </div>
-            {% endblock %}
+              </video>
         </div>
-        <div class="col subtitles">
+        {% block project_meta %}
+        <div id="project_meta" class="panel edit-inline">
+            <div hx-swap="innerHTML"
+                 hx-get="{{ url_for('projects.edit_project_form',id=project.id) }}"
+                 hx-target="#project_meta">
+                <h1>{{ project.name }}</h1>
+                <ul class="list-inline">
+                    <li>
+                        <span class="material-symbols-outlined md-18">schedule</span>
+                        {{ project.length|duration }}
+                    </li>
+                    <li>
+                        <span class="material-symbols-outlined md-18">event</span>
+                        {{ project.created }}
+                    </li>
+                </ul>
+                {% if project.description %}<p>{{ project.description }}</p>{% endif %}
+            </div>
+            <ul class="project-exports list-inline">
+                <li>
+                    <a class="btn btn-primary"
+                       href="{{ url_for('projects.download',id=project.id,att=true) }}"
+                       title="{{ project.filename }}">Download Video</a>
+                </li>
+                <li>
+                    <a class="btn btn-primary"
+                       href="{{ url_for('projects.vtt',id=project.id,att=true) }}">Export *.VTT</a>
+                </li>
+            </ul>
+        </div>
+    {% endblock %}
+        <div class="subtitles">
             <ul id="subtitle_list">
                 {% block subtitles_block scoped %}
                     {% for subtitle in subtitles %}
                         {%
                         block subtitle_block scoped %}
                         <li id="subtitle-{{ subtitle.id }}" {% if not no_swap %} hx-swap-oob="true"{% endif %}
-                            class="panel {% if loop and loop.first %}active{% endif %}">
+                            class="panel">
                             {% block line_block scoped %}
                                 <div class="subtitel_header">
                                     <span hx-on:click="player.currentTime({{(subtitle.start)+0.01}})"
