@@ -116,7 +116,7 @@ def modify(id):
 
         db.commit()
         return make_response("\n".join(blocks), trigger= "subtitles_updated")
-    return 500
+    return "",500
 
 @bp.route('/<int:id>/update_form', methods=('GET',))
 def update_form(id):
