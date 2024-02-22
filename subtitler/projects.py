@@ -228,7 +228,7 @@ def duration(seconds):
 @bp.app_template_filter('label')
 def label(status):
     label = {
-        'queued':'label-secondary',
+        'enqueued':'label-secondary',
         'uploaded':'label-secondary',
         'extracting': 'label-secondary',
         'processing' : 'label-secondary',
