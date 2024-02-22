@@ -64,6 +64,7 @@ def index():
         return render_block('pages/projects.html', 'projects_block', projects = projects, pagination = pagination)
     return render_template('pages/projects.html', projects = projects, pagination = pagination)
 
+
 @bp.route('/<int:id>', methods=('GET', 'PUT'))
 def project(id):
     if not htmx:
@@ -82,8 +83,6 @@ def project(id):
             return "Project not found", 404
         abort(404)
     return render_block("pages/editor.html", "project_meta", project=project)
-
-
     
 
 @bp.route('/<int:id>/editor', methods=('GET',))
@@ -113,6 +112,7 @@ def edit_project_form(id):
     else:
         return "No direct access", 500
 
+
 @bp.route('/<int:id>/delete', methods=('DELETE',))
 def delete(id):
     id = int(id)
@@ -123,11 +123,13 @@ def delete(id):
         return make_response("", trigger = "project_update")
     return "",500
 
+
 @bp.route('/<int:id>/project_row', methods=('GET', 'POST'))
 def project_row(id):
     id = int(id)
     project = get_project_byId(id)
     return render_block("pages/projects.html", "project_row_block", project=project)
+
 
 @bp.route('/<int:id>/vtt', methods=('GET',))
 def vtt(id):
@@ -143,6 +145,7 @@ def vtt(id):
     att = request.args.get("att") == "True"
     file_name = os.path.splitext(project['filename'])[0]
     return send_file(VTT.from_buffer(lines), download_name=f'{file_name}.vtt', as_attachment=att)
+
 
 @bp.route('/upload', methods=('GET', 'POST'))
 def upload():
@@ -186,6 +189,7 @@ def upload():
 
     return render_template("partials/upload_form.html")
 
+
 @bp.route('/<int:id>/retry')
 def retry(id):
     if enqueue_project(id) == None:
@@ -195,6 +199,7 @@ def retry(id):
             return "Process already finished or processing"
     return make_response("", trigger = "project_update")
 
+
 @bp.route('/<int:id>/download_video')
 def download(id):
     project = get_project_byId(id) 
@@ -203,6 +208,7 @@ def download(id):
     file = os.path.join(current_app.config["UPLOAD_FOLDER"], project['stored_filename'])
     att = request.args.get("att") == "True"
     return send_file(file, download_name = project['filename'], as_attachment=att)
+
 
 @bp.route('/<int:id>/poster')
 def poster(id):
@@ -225,6 +231,7 @@ def poster(id):
 def duration(seconds):
     return time.strftime('%H:%M:%S', time.gmtime(seconds))
 
+
 @bp.app_template_filter('label')
 def label(status):
     label = {
@@ -240,9 +247,11 @@ def label(status):
         return label[status]
     return label['queued']
 
+
 @bp.app_template_filter('busy')
 def busy(status):
     return status in ["extracting","transcribing"]
+
 
 def enqueue_project(id):
     db = get_db()
@@ -253,6 +262,7 @@ def enqueue_project(id):
         db.commit()
         return process.delay(id, filepath)
     return None
+
 
 def get_project_byId(id):
     project = query_db("SELECT * FROM project WHERE id = ? ",(id,), True)
