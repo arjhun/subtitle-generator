@@ -102,12 +102,6 @@ def editor(id):
         abort(404)
     return render_template('pages/editor.html', project=project, subtitles=subtitles)
 
-@bp.route('/<int:id>/edit', methods=('GET',))
-def edit(id):
-    project = get_project_byId(id)
-    if project == None:
-        abort(404)
-    return redirect(url_for('projects.editor', id=id))
 
 @bp.route('/<int:id>/edit_project_form', methods=('GET',))
 def edit_project_form(id):
