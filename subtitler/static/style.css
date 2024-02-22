@@ -7,6 +7,11 @@
   --main-bg-color: rgb(243, 243, 243);
   --nav-bg-color: rgb(63, 63, 63);
   --primary-border-color: rgb(230, 230, 230);
+  --navbar-height: 50px;
+}
+
+*{
+  box-sizing: border-box;
 }
 
 html,
@@ -53,13 +58,16 @@ ul {
 }
 
 .navbar {
-  position: relative;
+  position: sticky;
+  top:0px;
+  /* position: relative; */
   z-index: 1000;
   margin: 0;
   padding: 0;
   background-color: var(--nav-bg-color);
   display: flex;
   align-items: center;
+  height: var(--navbar-height);
 }
 
 .navbar a:link,
@@ -124,12 +132,20 @@ a:link:hover,
 }
 
 .editor {
-  width: 100%;
-  display: flex;
+  display: grid; 
+  padding: 10px 0px 10px 10px;
+  grid-auto-columns: 1fr; 
+  grid-template-columns: 1fr 1fr; 
+  grid-template-rows: max-content 1fr; 
+  gap: 1em 1em; 
+  grid-template-areas: 
+    "player subtitles"
+    "project_meta subtitles";
+    height: calc(100vh - var(--navbar-height));
 }
 
-.subtitles {
-  flex: 3;
+#project_meta{
+  grid-area: project_meta;
 }
 
 .time-devider {
@@ -138,6 +154,7 @@ a:link:hover,
 
 .player {
   flex: 2;
+  grid-area: player;
 }
 
 .col {
@@ -145,9 +162,9 @@ a:link:hover,
 }
 
 .subtitles {
-  height: calc(100vh - 100px);
   overflow: hidden;
   overflow-y: auto;
+  grid-area: subtitles;
 }
 
 .panel {
@@ -163,8 +180,11 @@ a:link:hover,
 }
 
 .subtitles li {
-  margin-bottom: 1em;
   position: relative;
+}
+
+.subtitles li:not(:last-child){
+  margin-bottom: 1em;
 }
 
 .edit-inline {
