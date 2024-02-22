@@ -65,7 +65,7 @@ def modify(id):
             return "Subtitle not found", 404
         abort(404)
        
-    if cursor > 0 and cursor < chars and request.form['action'] in ["split", "right", "left"]:
+    if cursor >= 0 and cursor <= chars and request.form['action'] in ["split", "right", "left"]:
 
         db = get_db()
         total_s = end - start 
