@@ -6,7 +6,7 @@ import math
 MAX_CHARS = 42
 
 def create_text(text:str) -> str:
-    text = "\n".join(wrap(text, MAX_CHARS))+"\n"
+    text = "\n".join(wrap(text, MAX_CHARS))
     return text
 
 def create_html(text:str, element="<br>") -> str:
