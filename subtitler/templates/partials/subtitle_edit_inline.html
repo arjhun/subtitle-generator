@@ -17,6 +17,13 @@
     </div>
     <div class="edit_text" hx-confirm="shure?">
         Actions:
+        <button 
+        type="button"
+        title="Add ellipses to begin"
+        onclick="addEllipses()"
+        class="btn btn-link">
+         ...
+        </button>
         {% if has_previous %}
             <button name="action"
                     value="left"
@@ -47,17 +54,19 @@
                 <span class="material-symbols-outlined md-18">text_select_move_forward_character</span>
             </button>
         {% endif %}
+        <button 
+        type="button"
+        title="Add ellipses to end"
+        onclick="addEllipses(true)"
+        class="btn btn-link">
+         ...
+        </button>
     </div>
-    <script>
-  function setCursorPos(el){
-    el.nextElementSibling.value = el.selectionStart
-
-  }
-    </script>
     <textarea onclick="setCursorPos(this)"
               oninput="setCursorPos(this)"
+              onchange="setCursorPos(this)"
               name="text"
-              id="text"
+              id="subtitle-text"
               rows="3">{{subtitle.text}}</textarea>
     <input type="hidden"name="cursor" value="0">
     <div class="control-group" hx-target="closest li" hx-swap="innerHTML">
@@ -70,3 +79,15 @@
                 hx-get="{{ url_for('subtitles.subtitle', id=subtitle.id) }}">Cancel</button>
     </div>
 </form>
+<script>
+    function setCursorPos(el){
+        el.nextElementSibling.value = el.selectionStart
+    }
+    function addEllipses(end){
+        let form = document.getElementById('subtitle-edit-form');
+        let subtitleText = form.querySelector('#subtitle-text');
+        subtitleText.value = end? `${subtitleText.value}...` : `...${subtitleText.value }`
+    }
+
+</script>
+  
